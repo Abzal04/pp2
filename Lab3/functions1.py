@@ -16,9 +16,9 @@ result=centigrade(a)
 
 ############    ex3
 def solve(numheads,numlegs):
-    # (35-x)*2+x*4=94
-    x=(4*numheads-numlegs)/2
-    y=numheads-x
+    # (35-x)*4+x*2=94
+    y=(4*numheads-numlegs)/2
+    x=numheads-y
     return int(x),int(y)
 
 a=int(input())
