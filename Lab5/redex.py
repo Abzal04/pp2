@@ -120,7 +120,7 @@ def camel_to_snake(camel_case):
             snake_case += '_'
         snake_case+= char.lower()
     return snake_case
-camel = "ThisIsCamelCaseString"
+camel = "LnLnLn"
 snake = camel_to_snake(camel)
 print(snake)
 
