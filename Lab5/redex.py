@@ -105,7 +105,7 @@ print(result)
 import re
 
 def insert_spaces(string):
-    between = re.sub(r'([a-z])([A-Z])', r'\1 \2', string)
+    between = re.sub(r'([a-zA-Z])', r'\1 \2', string)
     return between
 a = "LnLnLn"
 result = insert_spaces(a)
