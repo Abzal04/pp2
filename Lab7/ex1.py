@@ -35,18 +35,18 @@ while not done:
     secondTime = this_time.second
 
     angle1 = -minuteTime*6 
-    leg1 = pygame.transform.rotate(minute, angle1)
-    rect1 = leg1.get_rect()
+    right = pygame.transform.rotate(minute, angle1)
+    rect1 = right.get_rect()
     rect1.center = rectmin.center
 
     angle2 = -secondTime*6 
-    leg2 = pygame.transform.rotate(sec, angle2)
-    rect2 = leg2.get_rect()
+    left = pygame.transform.rotate(sec, angle2)
+    rect2 = left.get_rect()
     rect2.center = rectsec.center
 
     screen.blit(background, (0, 0))
-    screen.blit(leg1, rect1)
-    screen.blit(leg2, rect2)
+    screen.blit(right, rect1)
+    screen.blit(left, rect2)
 
     pygame.display.flip()
     clock.tick(60)
