@@ -18,6 +18,7 @@ path="Lab1/comments.py"
 print(test_access(path))
 
 # ##### ex3
+import os
 path="Lab1"
 print(os.path.exists(path))
 print(os.listdir(path))
@@ -31,6 +32,22 @@ with open("123.txt","r") as f:
     print(counter)
 
 ##### ex5
+import  os
 with open("123.txt","a") as f:
-     f.write(list[1,23,4])
+     f.write()
      f.close()
+
+##### ex6
+import string, os
+if not os.path.exists("letters"):
+   os.makedirs("letters")
+for letter in string.ascii_uppercase:
+   with open(letter + ".txt", "w") as f:
+       f.writelines(letter)
+
+###### ex8
+import os
+a=os.path.exists("LL/r.txt")
+s=os.access(path,os.W_OK)
+b=os.remove("LL/r.txt")
+       
