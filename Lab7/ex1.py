@@ -1,34 +1,36 @@
 import pygame
-import time
 import datetime
-import math
+
 
 pygame.init()
-WIDTH=1000
-HEIGHT=1000
-middle = WIDTH//2 , HEIGHT//2
-RADIUS = 500
+WIDTH=800
+HEIGHT=800
+middle = WIDTH/2 , HEIGHT/2
+RADIUS = 200
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 pygame.display.set_caption("Mickey Clock")
 
-sec = pygame.image.load("left.png").convert_alpha()
-minute = pygame.image.load("right.png").convert_alpha()
+sec = pygame.image.load("/Users/abzalkabdoldaev/Desktop/left.png")
+sec.set_colorkey((255,255,255))
+minute = pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab7/right.png")
+minute.set_colorkey((255,255,255))
 rectsec = sec.get_rect()
 rectmin = minute.get_rect()
-rectmin.center = rectmin.center = middle
+rectmin.center = middle
+rectsec.center=middle
 
-background = pygame.image.load("mickey.jpg")
-done =True
+background = pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab7/mickey.png")
+done =False
 
 angle1 = 0
 angle2 = 0
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = False
+            done = True
 
     this_time = datetime.datetime.now()
     minuteTime = this_time.minute
