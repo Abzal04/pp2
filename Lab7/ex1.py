@@ -8,7 +8,7 @@ HEIGHT=800
 middle = WIDTH/2 , HEIGHT/2
 RADIUS = 200
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT),pygame.RESIZABLE)
 clock = pygame.time.Clock()
 
 pygame.display.set_caption("Mickey Clock")

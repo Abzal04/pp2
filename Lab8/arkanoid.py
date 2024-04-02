@@ -16,6 +16,12 @@ paddleH = 25
 paddleSpeed = 20
 paddle = pygame.Rect(W // 2 - paddleW // 2, H - paddleH - 30, paddleW, paddleH)
 
+#unbreakable bricks
+brick_list=[pygame.Rect(10+120*i,60,100,50) for i in range(10)]
+RED=(255,0,0)
+
+#Bonus Bricks
+bonus_bricks = [pygame.Rect(160, 50 + 70 * 2, 100, 50), pygame.Rect(850, 50 + 70 * 1, 100, 50)]
 
 #Ball
 ballRadius = 20
@@ -55,11 +61,11 @@ def detect_collision(dx, dy, ball, rect):
 
 #block settings
 block_list = [pygame.Rect(10 + 120 * i, 50 + 70 * j,
-        100, 50) for i in range(10) for j in range (4)]
+        100, 50) for i in range(10) for j in range (3,6)]
 color_list = [(random.randrange(0, 255), 
     random.randrange(0, 255),  random.randrange(0, 255))
-              for i in range(10) for j in range(4)] 
-print(block_list)
+              for i in range(10) for j in range(3,6)] 
+
 #Game over Screen
 losefont = pygame.font.SysFont('comicsansms', 40)
 losetext = losefont.render('Game Over', True, (255, 255, 255))
@@ -72,15 +78,24 @@ wintext = losefont.render('You win yay', True, (0, 0, 0))
 wintextRect = wintext.get_rect()
 wintextRect.center = (W // 2, H // 2)
 
+#Increasing speed within time
+INC_SPEED=pygame.USEREVENT+1
+pygame.time.set_timer(INC_SPEED,1000)
+INC_PADDLE_WIDTH = pygame.USEREVENT + 2
+pygame.time.set_timer(INC_PADDLE_WIDTH, 1000)
+
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        elif event.type==INC_SPEED:
+            ballSpeed+=0.5
+        elif event.type==INC_PADDLE_WIDTH:
+            paddleW-=0.5
+            paddle = pygame.Rect(paddle.x, paddle.y, paddleW, paddleH)
 
     screen.fill(bg)
-    
-    # print(next(enumerate(block_list)))
     
     [pygame.draw.rect(screen, color_list[color], block)
      for color, block in enumerate (block_list)] #drawing blocks
@@ -88,6 +103,14 @@ while not done:
     pygame.draw.circle(screen, pygame.Color(255, 0, 0), ball.center, ballRadius)
     # print(next(enumerate (block_list)))
 
+    # Drawing unbreakable bricks
+    for brick in brick_list:
+        pygame.draw.rect(screen, RED, brick)
+
+    #Draawing bonus bricks
+    for brick in bonus_bricks:
+        pygame.draw.rect(screen, (255, 215, 0), brick)
+    
     #Ball movement
     ball.x += ballSpeed * dx
     ball.y += ballSpeed * dy
@@ -100,10 +123,23 @@ while not done:
         dy = -dy
     #Collision with paddle
     if ball.colliderect(paddle) and dy > 0:
-        dx, dy = detect_collision(dx, dy, ball, paddle)
+        dy= - dy
 
     #Collision blocks
     hitIndex = ball.collidelist(block_list)
+
+     #Collision of unbreakable bricks
+    for brick in brick_list:
+        if ball.colliderect(brick):
+            dx, dy = detect_collision(dx, dy, ball, brick)
+
+    #Collision of bonus brick
+    for bonus in bonus_bricks:
+        if ball.colliderect(bonus):
+            dx, dy = detect_collision(dx, dy, ball, bonus)
+            game_score += 100
+            bonus_bricks.remove(bonus)
+
 
     if hitIndex != -1:
         hitRect = block_list.pop(hitIndex)
