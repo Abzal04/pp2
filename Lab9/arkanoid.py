@@ -108,37 +108,38 @@ ballSize_text=ballSize_font.render("Ball Size",True,(255,255,255))
 ballSize_rect=ballSize_text.get_rect()
 ballSize_rect.center=(W//2-300,H//2)
 
-plus_sign_font=pygame.font.SysFont("comicsansms",30)
+plus_sign_font=pygame.font.SysFont("comicsansms",50)
 plus_sign_text=plus_sign_font.render("+",True,(255,255,255))
 plus_sign_rect=plus_sign_text.get_rect()
-plus_sign_rect.center=(W//2-200,H//2+300)
+plus_sign_rect.center=(W//2-200,H//2+100)
 
-minus_sign_font=pygame.font.SysFont("comicsansms",30)
+minus_sign_font=pygame.font.SysFont("comicsansms",50)
 minus_sign_text=minus_sign_font.render("-",True,(255,255,255))
 minus_sign_rect=minus_sign_text.get_rect()
-minus_sign_rect.center=(W//2-400,H//2+300)
+minus_sign_rect.center=(W//2-400,H//2+100)
 
-num=pygame.font.SysFont("comicsansms",40)
+num=pygame.font.SysFont("comicsansms",60)
 num_text=num.render(str(ballRadius),True,(255,255,255))
 num_rect=num_text.get_rect()
-num_rect.center=(W//2-300,H//2+300)
+num_rect.center=(W//2-300,H//2+100)
 
 
 #Speed of a ball
-sball_font=pygame.font.SysFont("comicsansms",60)
+sball_font=pygame.font.SysFont("comicsansms",80)
 sball_text=sball_font.render("Speed of a ball",True,(255,255,255))
 sball_rect=sball_text.get_rect()
 sball_rect.center=(W//2-300,H//2+200)
 
-pluss_sign_font=pygame.font.SysFont("comicsansms",30)
+pluss_sign_font=pygame.font.SysFont("comicsansms",50)
 pluss_sign_text=pluss_sign_font.render("+",True,(255,255,255))
 pluss_sign_rect=pluss_sign_text.get_rect()
+pluss_sign_rect.center=(W//2-200,H//2+300)
 
-minuss_sign_font=pygame.font.SysFont("comicsansms",30)
+minuss_sign_font=pygame.font.SysFont("comicsansms",50)
 minuss_sign_text=minuss_sign_font.render("-",True,(255,255,255))
 minuss_sign_rect=minuss_sign_text.get_rect()
 
-nums=pygame.font.SysFont("comicsansms",40)
+nums=pygame.font.SysFont("comicsansms",60)
 nums_text=nums.render(str(ballSpeed),True,(255,255,255))
 nums_rect=nums_text.get_rect()
 
@@ -238,6 +239,9 @@ while not done:
         screen.blit(pause_text,pauseRect)
         screen.blit(ballSize_text,ballSize_rect)
         screen.blit(settings_text,settings_rect)
+        screen.blit(plus_sign_text,plus_sign_rect)
+        screen.blit(minus_sign_text,minus_sign_rect)
+        screen.blit(num_text,num_rect)
 
     pygame.display.flip()
     clock.tick(FPS)

@@ -56,7 +56,7 @@ def main():
         #Right triangle
         pygame.draw.lines(screen,WHITE,True,[[400,50],[400,150],[500,150]],2)
         #Rhombus
-        pygame.draw.polygon(screen, WHITE, True, [(250, 50), (200, 150), (250, 150), (300, 150)], 2)
+        pygame.draw.polygon(screen, WHITE,[[80, 200], [20, 300], [80, 400], [140, 300]], 2)
 
         #Right Equilateral Triangle
         pygame.draw.lines(screen,WHITE,True,[[W-100,200],[W-200,200],[W-150,120]],2)
