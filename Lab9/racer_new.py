@@ -97,8 +97,7 @@ all_sprites.add(E1)
 all_sprites.add(C1)
 
 INC_SPEED=pygame.USEREVENT+1
-if SCORE>=30:
-    pygame.time.set_timer(INC_SPEED,1000)
+pygame.time.set_timer(INC_SPEED,1000)
 
 while True:
     for event in pygame.event.get():
@@ -106,7 +105,7 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type==INC_SPEED:
-                    SPEED+=50
+                    SPEED+=0.5
     SCREEN.blit(background,(0,0))
     scores=font_small.render(str(SCORE),True,BLACK)
     SCREEN.blit(scores,(10,10))
