@@ -147,8 +147,6 @@ while not done:
             x,y=event.pos
             if W//2-200<x< W//2-100 and H//2+100<y<H//2+200:
                 ballRadius+=50
-                for text,rect in text_objects:
-                    screen.blit(text,rect)
             elif W//2-400<x< W//2-300 and H//2+100 < y < H//2+200:
                 ballRadius-=50
             elif W//2+400 <x<W//2+300 and H//2+100<y<H//2+200:
