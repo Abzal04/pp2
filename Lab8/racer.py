@@ -75,7 +75,7 @@ class Coins(pygame.sprite.Sprite):
         pass
     def new_coin(self):
         global COINS
-        COINS +=random.randint(0,20)
+        COINS += 1
         coins.remove(self)
         self.rect.center=(random.randint(0,WIDTH-20),random.randint(30,HEIGHT-20))
         coins.add(self)
@@ -101,8 +101,8 @@ while True:
         if event.type ==pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type==INC_SPEED and SCORE>=50:
-            SPEED+=50
+        if event.type==INC_SPEED:
+            SPEED+=0.5
     SCREEN.blit(background,(0,0))
     scores=font_small.render(str(SCORE),True,BLACK)
     SCREEN.blit(scores,(10,10))
