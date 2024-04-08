@@ -1,6 +1,5 @@
 import pygame 
 import random
-
 pygame.init()
 
 W, H = 1200, 800
@@ -10,7 +9,7 @@ screen = pygame.display.set_mode((W, H), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 done = False
 bg = (0, 0, 0)
-is_paused=False
+WHITE=(255,255,255)
 
 #paddle
 paddleW = 150
@@ -87,63 +86,50 @@ INC_PADDLE_WIDTH = pygame.USEREVENT + 2
 pygame.time.set_timer(INC_PADDLE_WIDTH, 1000)
 
 #Pause
-pause_font=pygame.font.SysFont('comicsansms',80)
-pause_text=pause_font.render('Paused',True,(255,255,255))
-pauseRect=pause_text.get_rect()
-pauseRect.center=(W//2,H//2-300)
+pause_font=pygame.font.SysFont("comicsansms",80)
+pause_text=pause_font.render("Paused",True,(255,255,255))
+pause_rect=pause_text.get_rect()
+pause_rect.center=(W//2,H//2-300)
+
 is_paused=False
-dark_mode=pygame.Surface((W,H),pygame.SRCALPHA)
-dark_mode.fill((0,0,0,128))
 
-#Settings/ Change
-settings_font=pygame.font.SysFont("comicsansms",80)
-settings_text=settings_font.render("You can change:",True,(255,255,255))
-settings_rect=settings_text.get_rect()
-settings_rect.center=(W//2,H//2-200)
-turn_on=False
+# settings parameters
+text_data=[
+    {"font":80,
+    "text": "You can change:",
+    "position": (W//2,H//2-200)},
+    {"font":60,
+    "text": "Ball Size:",
+    "position": (W//2-300,H//2)},
+    {"font":50,
+     "text":"+",
+     "position": (W//2-200,H//2+100)},
+     {"font":50,
+     "text":"-",
+     "position": (W//2-400,H//2+100)},
+     {"font":60,
+     "text":str(ballRadius),
+     "position": (W//2-300,H//2+100)},
+     {"font":60,
+     "text":"Speed of a ball:",
+     "position": (W//2+300,H//2)},
+     {"font":50,
+     "text":"+",
+     "position": (W//2+400,H//2+100)},
+    {"font":50,
+     "text":"-",
+     "position": (W//2+200,H//2+100)},
+     {"font":60,
+     "text":str(ballSpeed),
+     "position": (W//2+300,H//2+100)}
+]
 
-#Size of a ball
-ballSize_font=pygame.font.SysFont("comicsansms",60)
-ballSize_text=ballSize_font.render("Ball Size",True,(255,255,255))
-ballSize_rect=ballSize_text.get_rect()
-ballSize_rect.center=(W//2-300,H//2)
-
-plus_sign_font=pygame.font.SysFont("comicsansms",50)
-plus_sign_text=plus_sign_font.render("+",True,(255,255,255))
-plus_sign_rect=plus_sign_text.get_rect()
-plus_sign_rect.center=(W//2-200,H//2+100)
-
-minus_sign_font=pygame.font.SysFont("comicsansms",50)
-minus_sign_text=minus_sign_font.render("-",True,(255,255,255))
-minus_sign_rect=minus_sign_text.get_rect()
-minus_sign_rect.center=(W//2-400,H//2+100)
-
-num=pygame.font.SysFont("comicsansms",60)
-num_text=num.render(str(ballRadius),True,(255,255,255))
-num_rect=num_text.get_rect()
-num_rect.center=(W//2-300,H//2+100)
-
-
-#Speed of a ball
-sball_font=pygame.font.SysFont("comicsansms",80)
-sball_text=sball_font.render("Speed of a ball",True,(255,255,255))
-sball_rect=sball_text.get_rect()
-sball_rect.center=(W//2-300,H//2+200)
-
-pluss_sign_font=pygame.font.SysFont("comicsansms",50)
-pluss_sign_text=pluss_sign_font.render("+",True,(255,255,255))
-pluss_sign_rect=pluss_sign_text.get_rect()
-pluss_sign_rect.center=(W//2-200,H//2+300)
-
-minuss_sign_font=pygame.font.SysFont("comicsansms",50)
-minuss_sign_text=minuss_sign_font.render("-",True,(255,255,255))
-minuss_sign_rect=minuss_sign_text.get_rect()
-
-nums=pygame.font.SysFont("comicsansms",60)
-nums_text=nums.render(str(ballSpeed),True,(255,255,255))
-nums_rect=nums_text.get_rect()
-
-
+text_objects=[]
+for data in text_data:
+    font=pygame.font.SysFont("comicsansms",data["font"])
+    text=font.render(data["text"],True,WHITE)
+    rect=text.get_rect(center=data["position"])
+    text_objects.append((text,rect))
 
 while not done:
     for event in pygame.event.get():
@@ -154,21 +140,30 @@ while not done:
         elif event.type==INC_PADDLE_WIDTH:
             paddleW-=0.5
             paddle = pygame.Rect(paddle.x, paddle.y, paddleW, paddleH)
-        #Pause
-        elif event.type==pygame.KEYDOWN: 
+        elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_p:
-                is_paused=not is_paused
+                is_paused= not is_paused
+        elif event.type==pygame.MOUSEBUTTONDOWN:
+            x,y=event.pos
+            if W//2-200<x< W//2-100 and H//2+100<y<H//2+200:
+                ballRadius+=50
+                for text,rect in text_objects:
+                    screen.blit(text,rect)
+            elif W//2-400<x< W//2-300 and H//2+100 < y < H//2+200:
+                ballRadius-=50
+            elif W//2+400 <x<W//2+300 and H//2+100<y<H//2+200:
+                ballSpeed+=2
+            elif W//2+300<x <W//2+200 and H//2+100<y<H//2+200:
+                ballSpeed-=2
 
 
-
-        
     screen.fill(bg)
     if not is_paused:
         [pygame.draw.rect(screen, color_list[color], block)
-         for color, block in enumerate (block_list)] #drawing blocks
+        for color, block in enumerate (block_list)] #drawing blocks
         pygame.draw.rect(screen, pygame.Color(255, 255, 255), paddle)
         pygame.draw.circle(screen, pygame.Color(255, 0, 0), ball.center, ballRadius)
-        # print(next(enumerate (block_list)))
+    
 
         # Drawing unbreakable bricks
         for brick in brick_list:
@@ -226,22 +221,19 @@ while not done:
         elif not len(block_list):
             screen.fill((255,255, 255))
             screen.blit(wintext, wintextRect)
-
+        # print(pygame.K_LEFT)
         #Paddle Control
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT] and paddle.left > 0:
             paddle.left -= paddleSpeed
         if key[pygame.K_RIGHT] and paddle.right < W:
-            paddle.right += paddleSpeed
-    
-    else: #SHow it when is_paused:
-        screen.blit(dark_mode,(0,0))
-        screen.blit(pause_text,pauseRect)
-        screen.blit(ballSize_text,ballSize_rect)
-        screen.blit(settings_text,settings_rect)
-        screen.blit(plus_sign_text,plus_sign_rect)
-        screen.blit(minus_sign_text,minus_sign_rect)
-        screen.blit(num_text,num_rect)
+         paddle.right += paddleSpeed
+
+         
+    else:
+        screen.blit(pause_text,pause_rect)
+        for text,rect in text_objects:
+            screen.blit(text,rect)
 
     pygame.display.flip()
     clock.tick(FPS)
