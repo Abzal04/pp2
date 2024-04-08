@@ -26,15 +26,15 @@ SCREEN=pygame.display.set_mode((WIDTH,HEIGHT))
 SCREEN.fill(WHITE)
 pygame.display.set_caption("Racer")
 
-background=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/image/AnimatedStreet.png")
+background=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/image/AnimatedStreet.png")
 
-fon_music= pygame.mixer.Sound('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/music/background.wav')
-crash_sound=pygame.mixer.Sound('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/music/crash.wav')
+fon_music= pygame.mixer.Sound('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/music/background.wav')
+crash_sound=pygame.mixer.Sound('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/music/crash.wav')
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/image/Player.png")
+        self.image=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/image/Player.png")
         self.rect=self.image.get_rect()
         self.rect.center=(random.randint(0,WIDTH-40),0)
     def move(self):
@@ -48,7 +48,7 @@ class Enemy(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image=pygame.image.load('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/image/Enemy.png')
+        self.image=pygame.image.load('/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/image/Enemy.png')
         self.rect=self.image.get_rect()
         self.rect.center=(160,520)
     def move(self):
@@ -66,7 +66,7 @@ class Player(pygame.sprite.Sprite):
 class Coins(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        image=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab8/image/coins.png")
+        image=pygame.image.load("/Users/abzalkabdoldaev/Desktop/PP2 Labs/Lab9/image/coins.png")
         self.image=pygame.transform.scale(image,(40,40))
         self.image.set_colorkey((255,255,255))
         self.rect=self.image.get_rect()
@@ -75,7 +75,10 @@ class Coins(pygame.sprite.Sprite):
         pass
     def new_coin(self):
         global COINS
+
+        #Randomly generating coins with different weights on the road
         COINS +=random.randint(0,20)
+
         coins.remove(self)
         self.rect.center=(random.randint(0,WIDTH-20),random.randint(30,HEIGHT-20))
         coins.add(self)
@@ -94,15 +97,16 @@ all_sprites.add(E1)
 all_sprites.add(C1)
 
 INC_SPEED=pygame.USEREVENT+1
-pygame.time.set_timer(INC_SPEED,1000)
+if SCORE>=30:
+    pygame.time.set_timer(INC_SPEED,1000)
 
 while True:
     for event in pygame.event.get():
         if event.type ==pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type==INC_SPEED and SCORE>=50:
-            SPEED+=50
+        if event.type==INC_SPEED:
+                    SPEED+=50
     SCREEN.blit(background,(0,0))
     scores=font_small.render(str(SCORE),True,BLACK)
     SCREEN.blit(scores,(10,10))
